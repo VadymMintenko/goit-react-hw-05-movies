@@ -1,20 +1,26 @@
 import { useEffect, useState } from 'react';
-
-import fetchMovie from 'components/Services/Services';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 const Home = () => {
   const [data, setData] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
-    fetchMovie().then(data => setData(() => [...data]));
-    console.log(Date.now());
+    const fetchMovie = async () => {
+      const response = await fetch(
+        'https://api.themoviedb.org/3/trending/all/day?api_key=2ea3a1cc18afc4f3a22942cd8d7fba10'
+      );
+      const data = await response.json();
+      setData(() => [...data.results]);
+    };
+    fetchMovie();
   }, []);
-  console.log(data);
 
   return data.map(obj => {
     return (
       <li key={obj.id}>
-        <Link to={`/movies/${obj.id}`}>{obj.original_title}</Link>
+        <Link to={`/movies/${obj.id}`} state={{ from: location }}>
+          {obj.original_title}
+        </Link>
       </li>
     );
   });

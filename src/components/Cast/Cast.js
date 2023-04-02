@@ -18,23 +18,23 @@ https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=2ea3a1cc18afc4f3a2
     fetchMovie();
   }, [movieId]);
 
-  // console.log(data);
-
-  return data.map(obj => {
-    return (
-      <>
-        <li key={obj.id}>
-          <p>{obj.name}</p>
-          <p>{obj.character}</p>
-          {obj.profile_path && (
-            <img
-              src={`https://image.tmdb.org/t/p/w500/${obj.profile_path}`}
-              alt={obj.name}
-              width="200px"
-            />
-          )}
-        </li>
-      </>
-    );
-  });
+  return (
+    <ul>
+      {data.map(obj => {
+        return (
+          <li key={obj.id}>
+            <p>{obj.name}</p>
+            <p>{obj.character}</p>
+            {obj.profile_path && (
+              <img
+                src={`https://image.tmdb.org/t/p/w500/${obj.profile_path}`}
+                alt={obj.name}
+                width="200px"
+              />
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
 };

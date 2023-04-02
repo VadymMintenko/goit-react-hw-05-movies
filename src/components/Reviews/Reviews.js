@@ -11,7 +11,6 @@ export const Reviews = () => {
         `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=2ea3a1cc18afc4f3a22942cd8d7fba10&language=en-US&page=1`
       );
       const data = await response.json();
-      console.log('Reviews', data.results);
       setData(() => [...data.results]);
     };
 

@@ -1,29 +1,32 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 export const Movies = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [serchParams, setSearchParams] = useSearchParams();
   const [data, setData] = useState([]);
+  const query = serchParams.get('query') ?? '';
 
-  const fetchMovie = async () => {
+  const location = useLocation();
+
+  const fetchMovie = async query => {
     const response = await fetch(
-      ` https://api.themoviedb.org/3/search/movie?api_key=2ea3a1cc18afc4f3a22942cd8d7fba10&language=en-US&page=1&include_adult=false&query=${searchQuery}`
+      ` https://api.themoviedb.org/3/search/movie?api_key=2ea3a1cc18afc4f3a22942cd8d7fba10&language=en-US&page=1&include_adult=false&query=${query}`
     );
     const data = await response.json();
     setData(() => [...data.results]);
   };
 
   const handleChange = evt => {
-    setSearchQuery(evt.target.value);
+    if (evt.target.value === '') {
+      return setSearchParams({});
+    }
+    setSearchParams({ query: evt.target.value });
   };
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    fetchMovie();
+    fetchMovie(query);
   };
-
-  console.log(data);
-  console.log(searchQuery);
 
   return (
     <>
@@ -35,7 +38,7 @@ export const Movies = () => {
             name="searchQuery"
             autoComplete="off"
             placeholder="Search movie..."
-            defaultValue={searchQuery}
+            value={query}
             onChange={handleChange}
           />
           <button type="submit">Search</button>
@@ -46,7 +49,9 @@ export const Movies = () => {
         {data.map(obj => {
           return (
             <li key={obj.id}>
-              <Link to={`/movies/${obj.id}`}>{obj.title}</Link>
+              <Link to={`/movies/${obj.id}`} state={{ from: location }}>
+                {obj.title}
+              </Link>
             </li>
           );
         })}

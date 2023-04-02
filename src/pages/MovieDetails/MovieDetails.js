@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { MovieDetalisContainer } from './MovieDetalis.styled';
 
 export const MovieDetalis = () => {
   const { movieId } = useParams();
   const [data, setData] = useState({});
+  const location = useLocation();
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -17,12 +18,11 @@ export const MovieDetalis = () => {
     };
     fetchMovie();
   }, [movieId]);
-  console.log('Moavies Detalis', data);
 
   return (
     <div>
       <h2>MovieDetalis</h2>
-      <div>Go back</div>
+      <Link to={location.state?.from ?? '/movies'}>Back to</Link>
       <MovieDetalisContainer>
         <div>
           {' '}
@@ -39,15 +39,12 @@ export const MovieDetalis = () => {
           <h3>Overview</h3>
           <p>{data.overview}</p>
           <h3>Genres</h3>
-
-          {data.genres &&
-            data.genres.map(genre => {
-              return (
-                <>
-                  <li key={genre.id}>{genre.name}</li>
-                </>
-              );
-            })}
+          <ul>
+            {data.genres &&
+              data.genres.map(genre => {
+                return <li key={genre.id}>{genre.name}</li>;
+              })}
+          </ul>
         </div>
       </MovieDetalisContainer>
 
