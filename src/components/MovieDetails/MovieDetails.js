@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
+import { MovieDetalisContainer } from './MovieDetalis.styled';
 
 export const MovieDetalis = () => {
   const { movieId } = useParams();
@@ -16,19 +17,40 @@ export const MovieDetalis = () => {
     };
     fetchMovie();
   }, [movieId]);
-  console.log(data);
+  console.log('Moavies Detalis', data);
 
   return (
     <div>
       <h2>MovieDetalis</h2>
-      <p>{data.title}</p>
+      <div>Go back</div>
+      <MovieDetalisContainer>
+        <div>
+          {' '}
+          {data.poster_path && (
+            <img
+              src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+              alt={data.title}
+            />
+          )}
+        </div>
+        <div>
+          <h2>{data.title}</h2>
+          <p>User Score: {data.vote_average}</p>
+          <h3>Overview</h3>
+          <p>{data.overview}</p>
+          <h3>Genres</h3>
 
-      {data.poster_path && (
-        <img
-          src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-          alt={data.title}
-        />
-      )}
+          {data.genres &&
+            data.genres.map(genre => {
+              return (
+                <>
+                  <li key={genre.id}>{genre.name}</li>
+                </>
+              );
+            })}
+        </div>
+      </MovieDetalisContainer>
+
       <ul>
         <li>
           <Link to="cast">Cast</Link>

@@ -1,3 +1,33 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 export const Reviews = () => {
-  return <div>Reviews</div>;
+  const { movieId } = useParams();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=2ea3a1cc18afc4f3a22942cd8d7fba10&language=en-US&page=1`
+      );
+      const data = await response.json();
+      console.log('Reviews', data.results);
+      setData(() => [...data.results]);
+    };
+
+    fetchMovie();
+  }, [movieId]);
+
+  if (data.length === 0) {
+    return <p>No reviews</p>;
+  }
+
+  return data.map(obj => {
+    return (
+      <li key={obj.id}>
+        <h3>{obj.author}</h3>
+        <p>{obj.content}</p>
+      </li>
+    );
+  });
 };
