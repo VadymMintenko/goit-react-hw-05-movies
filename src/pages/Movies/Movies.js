@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-export const Movies = () => {
+const Movies = () => {
   const [serchParams, setSearchParams] = useSearchParams();
   const [data, setData] = useState([]);
   const query = serchParams.get('query') ?? '';
@@ -59,3 +59,5 @@ export const Movies = () => {
     </>
   );
 };
+
+export default Movies;

@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { MovieDetalisContainer } from './MovieDetalis.styled';
+import { Suspense } from 'react';
 
-export const MovieDetalis = () => {
+const MovieDetalis = () => {
   const { movieId } = useParams();
   const [data, setData] = useState({});
   const location = useLocation();
+  const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -22,7 +24,7 @@ export const MovieDetalis = () => {
   return (
     <div>
       <h2>MovieDetalis</h2>
-      <Link to={location.state?.from ?? '/movies'}>Back to</Link>
+      <Link to={backLinkLocationRef.current}>Back to</Link>
       <MovieDetalisContainer>
         <div>
           {' '}
@@ -56,7 +58,11 @@ export const MovieDetalis = () => {
           <Link to="reviews">Reviews</Link>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<div>LOADING...</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
+
+export default MovieDetalis;

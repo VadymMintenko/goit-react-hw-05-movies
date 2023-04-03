@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
   const [data, setData] = useState([]);
 
@@ -38,3 +38,5 @@ https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=2ea3a1cc18afc4f3a2
     </ul>
   );
 };
+
+export default Cast;
