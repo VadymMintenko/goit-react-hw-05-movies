@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 const Home = () => {
   const [data, setData] = useState([]);
   const location = useLocation();
@@ -24,6 +25,14 @@ const Home = () => {
       </li>
     );
   });
+};
+Home.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      original_title: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default Home;

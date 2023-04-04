@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -39,4 +40,7 @@ https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=2ea3a1cc18afc4f3a2
   );
 };
 
+Cast.propTypes = {
+  movieId: PropTypes.string,
+};
 export default Cast;

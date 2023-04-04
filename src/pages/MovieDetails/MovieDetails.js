@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { MovieDetalisContainer } from './MovieDetalis.styled';
 import { Suspense } from 'react';
+import PropTypes from 'prop-types';
 
 const MovieDetalis = () => {
   const { movieId } = useParams();
@@ -63,6 +64,10 @@ const MovieDetalis = () => {
       </Suspense>
     </div>
   );
+};
+
+MovieDetalis.propTypes = {
+  movieId: PropTypes.string,
 };
 
 export default MovieDetalis;
