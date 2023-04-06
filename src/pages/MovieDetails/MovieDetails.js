@@ -12,12 +12,16 @@ const MovieDetalis = () => {
 
   useEffect(() => {
     const fetchMovie = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=2ea3a1cc18afc4f3a22942cd8d7fba10&language=en-US`
-      );
-      const data = await response.json();
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}?api_key=2ea3a1cc18afc4f3a22942cd8d7fba10&language=en-US`
+        );
+        const data = await response.json();
 
-      setData(data);
+        setData(data);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchMovie();
   }, [movieId]);

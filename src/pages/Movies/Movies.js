@@ -23,7 +23,6 @@ const Movies = () => {
           ` https://api.themoviedb.org/3/search/movie?api_key=2ea3a1cc18afc4f3a22942cd8d7fba10&language=en-US&page=1&include_adult=false&query=${searchValue}`
         );
         const data = await response.json();
-        console.log(data);
         setData(() => [...data.results]);
       } catch (error) {
         console.error(error);
